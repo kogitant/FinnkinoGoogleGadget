@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+p{
+	margin:0;
+	padding:0;
+	padding-right:10px;
+}
+.movie{
+}
+.movietimes{
+	text-align:right;
+	background-color: #174A24;
+}
+div{
+	padding: 0px; 
+	font-family: verdana, arial, helvetica, sans-serif; 
+	font-size: 70%;
+}
+
+.last_week{
+	background-color:#cc9999;
+}
+.first_week{
+	background-color:#99cc99;
+}
+
+
+#now__MODULE_ID__{
+}
+#next__MODULE_ID__{
+}
+
+#content__MODULE_ID__{
+	position:absolute;
+	top:0;
+	left:0;
+	margin:0;
+	padding:0;
+	width:100%;
+	display:block;
+}
+#info__MODULE_ID__{
+	position:absolute;
+	top:0;
+	left:0;
+	margin:0;
+	padding:0;
+	width:100%;
+	display:none;
+}

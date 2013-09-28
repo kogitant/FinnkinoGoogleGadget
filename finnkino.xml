@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+<!-- cvs output: id of the file
+$Id$
+cvs output: log messages of the file
+$Log$
+Revision 1.47  2006-07-13 15:03:10  KoantdebAdminAnttiKoivisto
+Teatteri and sali taken into account. Buggy as hell.
+
+Revision 1.46  2006-07-06 10:30:42  KoantdebAdminAnttiKoivisto
+Scrolling of iFrame works, but security violations with window scrolling
+
+Revision 1.44  2006-07-06 07:29:15  KoantdebAdminAnttiKoivisto
+Info displaying works.Need to add #to movie elements so that when info is closed, we scroll to the wose info link was selected
+
+Revision 1.43  2006-07-05 10:56:14  KoantdebAdminAnttiKoivisto
+Correct version now
+
+Revision 1.41  2006-07-04 13:45:55  KoantdebAdminAnttiKoivisto
+*** empty log message ***
+
+Revision 1.40  2006-07-04 12:10:01  KoantdebAdminAnttiKoivisto
+sOutputDiv changed to next__MODULE_ID__ etc in alert textscoloring of movietimes paragraph added
+
+Revision 1.39  2006-07-04 11:29:04  KoantdebAdminAnttiKoivisto
+Info button added. Bit buggy still.
+
+Revision 1.38  2006-07-03 19:23:56  KoantdebAdminAnttiKoivisto
+Outpout of buying link added. Styling problems.
+
+Revision 1.37  2006-07-03 18:47:22  KoantdebAdminAnttiKoivisto
+movie=nnnn extraction added,code refactored into functions processPhase1 & processPhase2
+
+Revision 1.35  2006-07-01 18:37:28  KoantdebAdminAnttiKoivisto
+Comparison of this week's and next week's showtimes enabled by refactoring code.Premieres and final shotimes are indicated in the listing.
+
+Revision 1.33  2006-06-30 13:51:51  KoantdebAdminAnttiKoivisto
+Unknown characters from the source xml file removed
+
+Revision 1.32  2006-06-30 12:55:59  KoantdebAdminAnttiKoivisto
+Output generation modified
+
+Revision 1.31  2006-06-30 12:06:11  KoantdebAdminAnttiKoivisto
+Case integer vs string problem fixed.Output formatting modified
+
+Revision 1.30  2006-06-30 11:59:54  KoantdebAdminAnttiKoivisto
+Inlining refixed. Some weird shit going on with this ide
+
+Revision 1.29  2006-06-30 11:57:27  KoantdebAdminAnttiKoivisto
+Variable scope bug corrected.etc
+
+Revision 1.28  2006-06-30 11:11:46  KoantdebAdminAnttiKoivisto
+Still buggy, but two things fixed:CVS log stuff needs to be inside <module> tag. If anything is in 
+the file before that tag (except xml tag) then the module is displayed as 
+empty when loaded.Secondly the script stuff must not be inside a div or the script is 
+displayed on the homepage
+
+Revision 1.27  2006-06-30 08:35:06  KoantdebAdminAnttiKoivisto
+Defined all module preferences. Added todo section to the file.
+
+Revision 1.26  2006-06-30 08:15:19  KoantdebAdminAnttiKoivisto
+Problems with character entities auml 228 and ouml 246 corrected.
+xml-syntax error with multiline attribute value corrected 
+(The error was a result of editing the file with JSEclipse (javascript) 
+view instead of an xml editing view.
+
+Revision 1.25  2006-06-30 08:07:37  KoantdebAdminAnttiKoivisto
+Another try with the comment section
+
+Revision 1.24  2006-06-30 08:02:10  KoantdebAdminAnttiKoivisto
+CVS log section borders changed
+
+Revision 1.23  2006-06-30 07:34:22  KoantdebAdminAnttiKoivisto
+Version 24. (Log messages for versions 2 - 23 removed as they had no info)
+This is the version at which point I posted this message to 
+Google Homepage API group in Google Groups:
+http://groups.google.com/group/Google-Homepage-API/msg/7fa363199b27619f:
+Hi,
+great feature this _IG_FetchXmlContent(url, func), but it's lacking
+support for ISO-8859-1 encoded xml files.
+When I'm extracting data from a xml file with that encoding, the
+characters � and � for example both return a value of 65535 with
+charCodeAt().
+It seems to me, that it's impossible to convert data from a source xml
+file with ISO-8859-1 encoding to UTF-8 to be displayed on my gadget.
+Any suggestions on how to accomplish this with Google API and
+javascript?
+Or is it impossible at the moment?
+
+Revision 1.2  2006-06-30 07:14:37  KoantdebAdminAnttiKoivisto
+CVS Log section added.
+end cvs output -->
+<!-- notes:
+Setting User preferences from the code isn't possible because we dont't want 
+	to render this gadget inline...
+	as described in  http://www.google.com/apis/homepage/guide.html#SetPrefs
+-->
+<!-- todo:
+Screenshot to: http://www.koant.com/googlegadgets/finnkino/finnkino.png
+screenshot should be 280px wide & of natural height
+
+Thumbnail to: http://www.koant.com/googlegadgets/finnkino/finnkino_thmb.png
+thumbnail should be 120x60 px
+
+Google guidelines:
+	The screenshot should not have any whitespace above the gadget's
+	blue header bar. For non-inlined gadgets, screenshots should show 
+	your full gadget, including its title bar, but nothing else. 
+	For inlined gadgets that modify the page, the screenshot should attempt 
+	to capture the main functionality, if not necessarily the gadget window 
+	itself. Alternatively, you can screenshot the gadget with the edit 
+	window open. Screenshots should not be resized or cropped. For quality and 
+	consistency, Google may take its own screenshots of a given gadget. 
+	If you strongly dislike such screenshots and prefer your own, contact Google.
+
+	Thumbnails are used in the content directory to give users a preview of a 
+	gadget. They should capture the main functionality of your gadget without 
+	showing it in its entirety. The value for this attribute is a string that 
+	gives the URL for a gadget thumbnail. This must be a well-formed URL, not a 
+	relative URL. This image must be on a public web site that is not blocked 
+	by robots.txt. PNG is the preferred format, though GIF and JPG are also 
+	acceptable. Thumbnails should be 120x60 pixels. They should not include 
+	title bars.
+
+Author info:
+http://groups.google.com/group/Google-Homepage-API/msg/a23b997f45dd68de:
+http://google.com/ig/authors 
+To get listed, make sure you add the following preference fields to 
+your gadgets: 
+author_photo - Include an URL to a photo (70x100 PNG format 
+preferred, but JPG/GIF supported). 
+author_aboutme - Give us a statement about yourself (try to keep it 
+to ~500 characters). 
+author_link - Link to your website, blog, etc.. 
+author_quote - Give us a quote you'd like to include (try to keep it 
+to ~300 characters).
+
+Description to: http://www.koant.com/googlegadgets/finnkino/finnkino.html
+
+Linkit lippujen ostamiseksi ja varaamiseksi
+	Erottele movie=nnnn osuus linkistä
+	Ja luo seuraava linkki jokaisen elokuvan kohdalle: 
+	http://www.finnkino.fi/include/iticket_login.asp?city=8&movie=1071
+
+Tarkista viikko parametri, jos nytkyinen viikko on jo historia, älä näytä sitä, 
+vaan veisti asiasta (23.6.-29.6.) Eli jos nykyinen päivämäärä ei sovi 
+tuohon väliin, skippaa
+
+Javascript/ajxc popups from logos
+
+Rotten tomatoes rating feetching
+
+Links to reviews
+
+Separate js code to multiple files to increase loading speed 
+
+Testing (as stated in development page)
+	Try all combinations of UserPref values.
+
+	Run it in different sized screens, 
+	from 800x600 to as wide as you can. 
+	Link to the Firefox web developer extension, 
+	which makes it easy to resize Firefox to a specific size.
+
+	Test it in the top browsers: Firefox 1.5, Internet Explorer 6, 
+	Safari, and Opera.
+
+	If you are using _IG_FetchContent(), test what happens if 
+	the data source is down or returns an error.	
+	You can simulate this by changing the URL temporarily to another URL. 
+
+	Try different font sizes: 
+	To change your font size in Firefox, choose Tools > Options > Content. 
+	Click Advanced in the "Fonts & Colors" area. 
+	Change the font settings, 
+	and uncheck "Allow pages to choose their own fonts,
+	instead of my selections above."
+	To change your font size in Internet Explorer, 
+	choose Tools > Internet Options > General. 
+	Use the Fonts and Accessibility dialogs to change your font settings.
+-->
+	<ModulePrefs 
+		title="Finnkino" 
+      	directory_title="Finnkino elokuvateattereiden n&#228;yt&#246;sajat (Finnkino movie theater showtimes)"
+		title_url="http://www.koant.com/googlegadgets/finnkino/finnkino.html" 
+		description="(In finnish as this gadget, which is used to retrieve local movie theater showtimes:) Listaa valitsemasi kaupungin Finnkino-elokuvateattereiden elokuvien ajat kuluvalle tai seuraavalle viikolle"
+		author="Antti P. Koivisto"
+		author_email="googlegadgets@koant.com" 
+		author_affiliation="personal"
+		author_location="Pori, Finland"
+		screenshot="http://www.koant.com/googlegadgets/finnkino/finnkino.png"
+		thumbnail="http://www.koant.com/googlegadgets/finnkino/finnkino_thmb.png"
+	    render_inline="never"
+	    scaling="true"
+	    scrolling="true"
+	    singleton="false"
+	>
+		<Locale lang="fi" country="fi" />
+	</ModulePrefs>
+	<!-- Cities where Finnkino operates in Finland 
+	(as specified in the source code of http://www.finnkino.fi/) --> 
+    <UserPref 
+    		name="iCityId" 
+    		display_name="Kaupunki" 
+    		datatype="enum" 
+    		required="true" 
+    		default_value="1"
+    	>
+        <EnumValue value="1" display_value="Helsinki"/>   
+        <EnumValue value="8" display_value="Kuopio"/>
+        <EnumValue value="7" display_value="Lahti"/>
+        <EnumValue value="3" display_value="Oulu"/>
+        <EnumValue value="6" display_value="Pori"/>
+        <EnumValue value="4" display_value="Rovaniemi"/>
+        <EnumValue value="5" display_value="Tampere"/>
+        <EnumValue value="2" display_value="Turku"/>
+    </UserPref>
+    <!-- Should the gadget show listing of current showtimes -->
+    <UserPref 
+    		name="bShowCurrentSchedule" 
+    		display_name="N&#228;yt&#246;kset nyt" 
+    		datatype="bool" 
+    		default_value="true"
+    	/>
+    	<!-- Should the gadget show listing of next week's showtimes -->
+    <UserPref 
+    		name="bShowNextSchedule" 
+    		display_name="N&#228;yt&#246;kset ensi viikolla" 
+    		datatype="bool" 
+    		default_value="false"
+    	/>
+    <Content type="html">
+		<![CDATA[ 
+		<link 
+			rel="stylesheet" 
+			type="text/css" 
+			href="http://www.koant.com/googlegadgets/finnkino/finnkino.css"
+		>
+		<div id="info__MODULE_ID__"></div>		
+		<div id="content__MODULE_ID__">
+			<div id="current__MODULE_ID__">&nbsp;</div>
+			<div id="next__MODULE_ID__">&nbsp;</div>
+		</div>
+        	<script type="text/javascript">
+        		// Initialize global variables that need to be accessible 
+        		// to all functions
+			var prefs__MODULE_ID__ = null; 
+            	var iCityId__MODULE_ID__ = null; 
+            	var bShowCurrentTimes__MODULE_ID__ = null;
+            	var bShowNextTimes__MODULE_ID__ = null;
+            	var sBaseUrl__MODULE_ID__ = null;
+            	var sTimeTablesUrl__MODULE_ID__ = null;
+            	var sContentNextUrl__MODULE_ID__ = null;
+            	var sContentNowUrl__MODULE_ID__ = null;
+            	var sCityName__MODULE_ID__ = null;
+			var sCityNameInflected__MODULE_ID__ = null;  
+			// These 2 dimensional array will store all found showtimes
+			var arrMoviesCurrent = new Array();
+			var arrMoviesNext = new Array();
+			var arrMovie = new Array();
+			var kaupunki = null;
+			var viikko_nyt = null;
+			var viikko_tuleva = null;
+			
+			// This is used to create an anchor link to each displayed element in the file
+			// so that when the user has scrolled the page to a movie and clicked it's info link
+		 	// the page is scrolled back to the same section when the user closes the info 
+			var iMovieHrefName = 0;
+			
+			// this stores the position where the page ahs been scrolled.
+			var pageScrollPositionFromTop = 0;
+						
+        		//This is the wrapper function to handle all processing
+            	function finnkino__MODULE_ID__(){
+            		//Get a handle to the user preferences
+				prefs__MODULE_ID__ = new _IG_Prefs(__MODULE_ID__);
+                
+                	// Get the integer id preference for the city whose 
+                	// listings should be shown
+                	iCityId__MODULE_ID__ = prefs__MODULE_ID__.getInt("iCityId");
+                
+                	// Get the boolean preference that determines if 
+                	// current showtimes should be listed
+                	bShowCurrentTimes__MODULE_ID__ = prefs__MODULE_ID__.getBool("bShowCurrentSchedule");
+
+                	// Get the boolean preference that determines if next week's showtimes should be listed                
+                	bShowNextTimes__MODULE_ID__ = prefs__MODULE_ID__.getBool("bShowNextSchedule");
+                
+                	// This is the url to which we append the city name and 
+                	// (a number identifier in the case of current week's showtimes) 
+                	// and the extension .xml to form the url where from the data for 
+                	// the listings is extracted
+                	sBaseUrl__MODULE_ID__ = "http://www.finnkino.fi/xml/";
+                	
+                	// This is the url from which we have to extract the number 
+                	// that is prefixed to the city name to form the url of current week's schedule
+                	sTimeTablesUrl__MODULE_ID__ = "http://www.finnkino.fi/text/default.asp";
+                
+                 // This will be the final url where from the data of next week's showtimes is extracted
+                	sContentNextUrl__MODULE_ID__ = '';
+                	// This will be the final url where from the data of current week's showtimes is extracted
+                	sContentNowUrl__MODULE_ID__ = '';
+                
+                	// This is the name of the city that is used to generate urls
+                	// It would be nice to get both the iCityId and the name from the user preferences, 
+                	// but for the time being I've done it with a switch structure
+                	sCityName__MODULE_ID__ = '';
+                	
+    				// Call the function to assign values to some of the variables presented above
+    				fillVariables__MODULE_ID__();
+    				
+    				processXmlSources__MODULE__ID();
+    				
+            	} // function finnkino__MODULE_ID__()
+            	
+			function fillVariables__MODULE_ID__()
+			{
+				// This is a somewhat redundant case structure as the city
+				// name could be taken from the user preferences 
+				// (Maybe by with _IG_FetchXmlContent or something
+				switch (iCityId__MODULE_ID__){
+			     	case 1:
+			     		sCityName__MODULE_ID__ = 'Helsinki'; 
+			     		sCityNameInflected__MODULE_ID__ = "Helsingiss&#228;";
+			     		break;
+			     	case 2:
+			     		sCityName__MODULE_ID__ = 'Turku';	
+			     		sCityNameInflected__MODULE_ID__ = "Turussa";
+			     		break;
+			     	case 3:
+			     		sCityName__MODULE_ID__ = 'Oulu'; 
+			     		sCityNameInflected__MODULE_ID__ = "Oulussa";
+			     		break;
+			     	case 4:
+			     		sCityName__MODULE_ID__ = 'Rovaniemi';	
+			     		sCityNameInflected__MODULE_ID__ = "Rovaniemell&#228;";
+			     		break;
+			     	case 5:
+			     		sCityName__MODULE_ID__ = 'Tampere'; 
+			     		sCityNameInflected__MODULE_ID__ = "Tampereella";
+			     		break;
+			     	case 6:
+			     		sCityName__MODULE_ID__ = 'Pori'; 
+			     		sCityNameInflected__MODULE_ID__ = "Porissa";
+			     		break;
+			     	case 7:
+			     		sCityName__MODULE_ID__ = 'Lahti';	
+			     		sCityNameInflected__MODULE_ID__ = "Lahdessa";
+			     		break;
+			     	case 8:
+				     	sCityName__MODULE_ID__ = 'Kuopio'; 
+				     	sCityNameInflected__MODULE_ID__= "Kuopiossa";
+				     	break;
+				    default : 
+					    	alert("Problem with user preferences. Contact the author of this module."); break;
+				}
+				
+				sContentNextUrl__MODULE_ID__ = sBaseUrl__MODULE_ID__ + sCityName__MODULE_ID__ + ".xml";
+				
+			}
+                
+			function extractIdOfCurrentWeek__MODULE_ID__(sAll){
+			// Extracts the number_ section from the input string
+			// This extracted part is used to form the url of current week's schedule
+				
+				// The part we're interested in http://www.finnkino.fi//xml/200625_helsinki.xml
+				// is 200625_
+			   	var re = new RegExp("([0-9]{4,6}_)");
+			   	var m = re.exec(sAll);
+			   	if (m == null) {
+			   		// Didn't find what we we're looking for.
+			        	alert("Problem extracting url of current schedule.");
+			        	return "";
+			   	} else {
+			   		// We found what we were lookin for, return it.
+			       	return m[0];
+			    }
+			}
+			
+			function extractIdOfMovie__MODULE_ID__(sUrl){
+			// Extracts the movie?nnnn section from the input string
+			// This extracted part is used to form the url of ticket bying service
+				
+				// The part we're interested in http://www.finnkino.fi/include/iticket_login.asp?city=8&movie=1071
+			   	var re = new RegExp("(movie=)([0-9]+)$");
+			   	var m = re.exec(sUrl);
+			   	if (m == null) {
+			   		// Didn't find what we we're looking for.
+			        	alert("Problem extracting movie_id from link.");
+			        	return "";
+			   	} else {
+			   		// We found what we were lookin for, return it.
+			       	return m[2];
+			    }
+			}
+                
+                
+             function processXmlSources__MODULE__ID(){
+             	// 1. get current week xml url
+             	// fetch data
+             	// fetch other data
+             	// compare & output as needed
+             	
+			 	// Fetch the page where from we can extract the needed sNumber
+				_IG_FetchContent( sTimeTablesUrl__MODULE_ID__, 
+					function (responseText) {
+						// Call the regexp function used to extract the number we need
+				 		var sNumber = extractIdOfCurrentWeek__MODULE_ID__(responseText);
+				 		if (sNumber != ""){
+					 		// Form the url 
+					    		var sUrl = sBaseUrl__MODULE_ID__ + sNumber + sCityName__MODULE_ID__ + '.xml';
+					    		
+					    		// Extract and parse times from the xml file. 
+			             	_IG_FetchXmlContent(sUrl, function (response){
+			             		processPhase1__MODULE_ID__(response);
+			             	});
+				 		}
+				 		else{
+				 			// Can't do anything...
+				 			// Should remove the div
+				 			return;
+				 		}
+					}); // _IG_FetchContent( sTimeTablesUrl__MODULE_ID__,
+             }   
+             
+         	function processPhase1__MODULE_ID__(response) {
+                  if (response == null 
+                  	|| typeof(response) != "object" 
+                  	|| response.firstChild == null) {
+                  	_gel("current__MODULE_ID__").innerHTML = "<i>Invalid data.</i>";
+                      return;
+                   }
+                   
+                   // <kaupunki nimi="Helsinki" viikko="30.6.-6.7.">
+                   kaupunki = response.getElementsByTagName("kaupunki").item(0).getAttribute("nimi");
+                   viikko_nyt = response.getElementsByTagName("kaupunki").item(0).getAttribute("viikko");
+
+                   // Get a list of the <teatteri> element nodes in the file
+                   var itemList = response.getElementsByTagName("teatteri");
+                   
+                   // Loop through all <teatteri> nodes
+                   //    <teatteri nimi="Star" sali="Star 1">
+                   for (var i = 0; i < itemList.length ; i++) { 
+                     	// For each <teatteri> node, get child nodes.
+                   	var nodeList = itemList.item(i).childNodes;
+        
+                 	// arrMovie is an array consisting of data related to a single movie
+                 	arrMovie = new Array();
+                 	
+                   	// "first_week" determines if the movie is a premiere
+                   	arrMovie["first_week"] = 0;
+                   	
+                   	// "last_week" determines if the movie is showing for the final week
+                   	arrMovie["last_week"] = 0;	   
+                   	
+	                 arrMovie["teatteri"] = new Array(itemList.item(i).getAttribute("nimi"));
+	                 arrMovie["sali"] = new Array(itemList.item(i).getAttribute("sali"));
+                 	// element "ajat" contains an array that has elements like [ma-pe],[19.30]
+                   	arrMovie["ajat"] = new Array();
+
+                     	// Loop through child nodes. Extract data from the text nodes
+                     	for (var j = 0; j < nodeList.length ; j++) {
+                     		
+                     		var node = nodeList.item(j);
+                     		
+                       	if(!node.hasChildNodes()){
+                       		// Skip this element
+                          	continue;
+                        	}
+                        	else if(node.firstChild.nodeValue == null){
+                        		// Skip this element
+                            	continue;
+                        	}
+                        	
+                        	// Add an unique href name identifier to the array
+                        	arrMovie["hrefname"] = iMovieHrefName;
+                        	iMovieHrefName++;
+                        
+                        	//<leffanimi ensi-ilta="22.6.2006">Poseidon</leffanimi>
+                        	if (node.nodeName == "leffanimi") {
+							arrMovie["leffanimi"]=node.firstChild.nodeValue;
+							arrMovie["premiere"] = node.getAttribute("ensi-ilta");
+                        	}
+                        	//<leffanimioriginal></leffanimioriginal>
+                        	if (node.nodeName == "leffanimioriginal") {
+							arrMovie["leffanimioriginal"]=node.firstChild.nodeValue;
+                        	}
+                        	//<ikaraja>K11</ikaraja>
+                        	if (node.nodeName == "ikaraja") {
+							arrMovie["ikaraja"]=node.firstChild.nodeValue;
+							switch (arrMovie["ikaraja"]){
+								case "K3":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/LEFFAT_3.GIF";
+									break;
+								case "K7":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/LEFFAT_7.GIF";
+									break;
+								case "K11":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/leffat_11.gif";								
+									break;
+								case "K15":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/leffat_15.gif";							
+									break;
+								case "K18":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/leffat_18.gif";								
+									break;
+							}
+                        	}
+                        	//<kesto>1 hour(s) 40 minute(s)</kesto>
+                        	if (node.nodeName == "kesto") {
+							arrMovie["kesto"]=node.firstChild.nodeValue;
+                        	}
+                        	//<genre>Seikkailu/draama</genre>
+                        	if (node.nodeName == "genre") {
+							arrMovie["genre"]=node.firstChild.nodeValue;
+                        	}
+                        	//<ohjaaja>Wolfgang Petersen</ohjaaja>
+                        	if (node.nodeName == "ohjaaja") {
+							arrMovie["ohjaaja"]=node.firstChild.nodeValue;
+	                     }
+                        	//<nayttelijat>Josh Lucas, Kurt Russell, Richard Dreyfuss, Emmy Rossum, Jacinda Barrett, Mike Vogel, Mia Maestro, Jimmy Bennett, Freddy Rodriguez</nayttelijat>
+                        	if (node.nodeName == "nayttelijat") {
+							arrMovie["nayttelijat"]=node.firstChild.nodeValue;
+                        	}
+                        	//<linkki>http://www.finnkino.fi/elokuvaesittely.asp?movie=1073</linkki>
+                        	if (node.nodeName == "linkki") {
+							arrMovie["linkki"]=node.firstChild.nodeValue;
+							arrMovie["id"] = extractIdOfMovie__MODULE_ID__(arrMovie["linkki"]);
+                        	}
+                        	//<aika paiva="pe-to">18:00, 20:00</aika>
+                        	if (node.nodeName == "aika") {
+                           	aika = node.firstChild.nodeValue;
+                           	paiva = node.getAttribute("paiva")
+                           	var arrTmp2 = new Array();
+                           	arrTmp2["pv"] = paiva;
+                           	arrTmp2["aika"] = aika;
+							arrMovie["ajat"].push(arrTmp2);
+                        	}
+                        	//<kuvaus>Vuoden 1972 katastrofielokuvan uusintaversiossa luksusluokan valtamerialus kaatuu jttiaallon seurauksen keskell merta jtten matkustajat taistelemaan pakokauhua ja kuolemaa vastaan.</kuvaus>
+                        	if (node.nodeName == "kuvaus") {
+							arrMovie["kuvaus"]=node.firstChild.nodeValue;
+                        	}
+					} // for (var j = 0; j < nodeList.length ; j++) Loop through child nodes. Extract data from the text nodes
+					
+					// Check if the same movie with different theater or "sali" exists already
+					var bFound = false;
+					for (var x=0; x<arrMoviesCurrent.length; x++){
+						if( arrMoviesCurrent[x]["id"] == arrMovie["id"] ){
+							// join the movies their showtimes) together
+							bFound = true;
+							
+							// Combine the showtimes
+							var arrTmpTeatteri = new Array();
+							arrTmpTeatteri = arrMoviesCurrent[x]["teatteri"];
+							arrMoviesCurrent[x]["teatteri"] = arrTmpTeatteri.concat(arrMovie["teatteri"]);
+							var arrTmpSali = new Array();
+							arrTmpSali = arrMoviesCurrent[x]["sali"];
+							arrMoviesCurrent[x]["sali"] = arrTmpSali.concat(arrMovie["sali"]);
+							arrMoviesCurrent[x]["ajat"].push(arrMovie["ajat"]);
+						}
+					}
+					if (bFound==false){
+						arrMoviesCurrent.push(arrMovie);
+					}
+				} // for (var i = 0; i < itemList.length ; i++) Loop through all <teatteri> nodes
+				
+				// After all data from the "current.xml" is processed 
+				// & stored in the global array arrMoviesCurrent
+				// then process upcoming movies
+             	_IG_FetchXmlContent(sContentNextUrl__MODULE_ID__, function (response){
+             		processPhase2__MODULE_ID__(response);
+             	});
+
+			} // _IG_FetchXmlContent(sUrl, function (response) {
+             
+	     	function processPhase2__MODULE_ID__(response) {
+	              if (response == null 
+	              	|| typeof(response) != "object" 
+	              	|| response.firstChild == null) {
+	              	_gel("next__MODULE_ID__").innerHTML = "<i>Invalid data.</i>";
+	                  return;
+	               }
+	               
+	               // <kaupunki nimi="Helsinki" viikko="30.6.-6.7.">
+	               kaupunki = response.getElementsByTagName("kaupunki").item(0).getAttribute("nimi");
+	               viikko_tuleva = response.getElementsByTagName("kaupunki").item(0).getAttribute("viikko");
+	
+	               // Get a list of the <teatteri> element nodes in the file
+	               var itemList = response.getElementsByTagName("teatteri");
+	               
+	               // Loop through all <teatteri> nodes
+	               //    <teatteri nimi="Star" sali="Star 1">
+	               for (var i = 0; i < itemList.length ; i++) { 
+                 	// For each <teatteri> node, get child nodes.
+
+	             	arrMovie = new Array();
+	               	arrMovie["ajat"] = new Array();
+	               	arrMovie["first_week"] = 0;
+	               	arrMovie["last_week"] = 0;	                               	
+	                 arrMovie["teatteri"] = new Array(itemList.item(i).getAttribute("nimi"));
+	                 arrMovie["sali"] = new Array(itemList.item(i).getAttribute("sali"));
+	                 	
+	               	var nodeList = itemList.item(i).childNodes;
+	               	var alltimes = "";
+	    
+                 	// Loop through child nodes. Extract data from the text nodes
+                 	for (var j = 0; j < nodeList.length ; j++) {
+	                 		
+	                 	var node = nodeList.item(j);
+	                 		
+	                   	if(!node.hasChildNodes()){
+	                   		// Skip this element
+	                      	continue;
+	                    	}
+	                    	else if(node.firstChild.nodeValue == null){
+	                    		// Skip this element
+	                        	continue;
+	                    	}
+	                    	
+                        	// Add an unique href name identifier to the array
+                        	arrMovie["hrefname"] = iMovieHrefName;
+                        	iMovieHrefName++;
+	                    
+	                    	//<leffanimi ensi-ilta="22.6.2006">Poseidon</leffanimi>
+	                    	if (node.nodeName == "leffanimi") {
+							arrMovie["leffanimi"]=node.firstChild.nodeValue;
+							arrMovie["premiere"] = node.getAttribute("ensi-ilta");
+	                    	}
+	                    	//<leffanimioriginal></leffanimioriginal>
+	                    	if (node.nodeName == "leffanimioriginal") {
+							arrMovie["leffanimioriginal"]=node.firstChild.nodeValue;
+	                    	}
+	                    	//<ikaraja>K11</ikaraja>
+	                    	if (node.nodeName == "ikaraja") {
+							arrMovie["ikaraja"]=node.firstChild.nodeValue;
+							switch (arrMovie["ikaraja"]){
+								case "K3":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/LEFFAT_3.GIF";
+									break;
+								case "K7":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/LEFFAT_7.GIF";
+									break;
+								case "K11":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/leffat_11.gif";								
+									break;
+								case "K15":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/leffat_15.gif";							
+									break;
+								case "K18":
+									arrMovie["ikaraja_kuva"]="http://www.vet.fi/images/leffat_18.gif";								
+									break;
+							}
+	                    	}
+	                    	//<kesto>1 hour(s) 40 minute(s)</kesto>
+	                    	if (node.nodeName == "kesto") {
+							arrMovie["kesto"]=node.firstChild.nodeValue;
+	                    	}
+	                    	//<genre>Seikkailu/draama</genre>
+	                    	if (node.nodeName == "genre") {
+							arrMovie["genre"]=node.firstChild.nodeValue;
+	                    	}
+	                    	//<ohjaaja>Wolfgang Petersen</ohjaaja>
+	                    	if (node.nodeName == "ohjaaja") {
+							arrMovie["ohjaaja"]=node.firstChild.nodeValue;
+	                     }
+	                    	//<nayttelijat>Josh Lucas, Kurt Russell, Richard Dreyfuss, Emmy Rossum, Jacinda Barrett, Mike Vogel, Mia Maestro, Jimmy Bennett, Freddy Rodriguez</nayttelijat>
+	                    	if (node.nodeName == "nayttelijat") {
+							arrMovie["nayttelijat"]=node.firstChild.nodeValue;
+	                    	}
+	                    	//<linkki>http://www.finnkino.fi/elokuvaesittely.asp?movie=1073</linkki>
+	                    	if (node.nodeName == "linkki") {
+							arrMovie["linkki"]=node.firstChild.nodeValue;
+							arrMovie["id"] = extractIdOfMovie__MODULE_ID__(arrMovie["linkki"]);
+	                    	}
+	                    	//<aika paiva="pe-to">18:00, 20:00</aika>
+	                    	if (node.nodeName == "aika") {
+	                       	aika = node.firstChild.nodeValue;
+	                       	paiva = node.getAttribute("paiva")
+                           	var arrTmp2 = new Array();
+                           	arrTmp2["pv"] = paiva;
+                           	arrTmp2["aika"] = aika;
+                           	var arrTmp3 = new Array();
+                           	arrTmp3 = arrMovie["ajat"];
+                           	arrTmp3.push(arrTmp2);
+							arrMovie["ajat"] = arrTmp3;
+	                    	}
+	                    	//<kuvaus>Vuoden 1972 katastrofielokuvan uusintaversiossa luksusluokan valtamerialus kaatuu jttiaallon seurauksen keskell merta jtten matkustajat taistelemaan pakokauhua ja kuolemaa vastaan.</kuvaus>
+	                    	if (node.nodeName == "kuvaus") {
+							arrMovie["kuvaus"]=node.firstChild.nodeValue;
+	                    	}
+					} // for (var j = 0; j < nodeList.length ; j++) Loop through child nodes. Extract data from the text nodes
+					
+					// Check if the same movie with different theater or "sali" exists already
+					var bFound = false;
+					for (var x=0; x<arrMoviesNext.length; x++){
+						if( arrMoviesNext[x]["id"] == arrMovie["id"] ){
+							// join the movies their showtimes) together
+							bFound = true;
+							
+							// Combine the showtimes
+							var arrTmpTeatteri = new Array();
+							arrTmpTeatteri = arrMoviesNext[x]["teatteri"];
+							arrMoviesNext[x]["teatteri"] = arrTmpTeatteri.concat(arrMovie["teatteri"]);
+							var arrTmpSali = new Array();
+							arrTmpSali = arrMoviesNext[x]["sali"];
+							arrMoviesNext[x]["sali"] = arrTmpSali.concat(arrMovie["sali"]);
+							arrMoviesNext[x]["ajat"].push(arrMovie["ajat"]);
+						}
+					}
+					if (bFound==false){
+						arrMoviesNext.push(arrMovie);
+					}
+				} // for (var i = 0; i < itemList.length ; i++) Loop through all <teatteri> nodes
+				
+				// Compare showtimes to find similarities & differences
+				processPhase3();
+				
+				// Output data to divs
+				processPhase4();
+			} // _IG_FetchXmlContent(sContentNextUrl__MODULE_ID__, function (response) {
+			
+			function processPhase3(){
+			// Here the arrays of showtimes are cheked for similarities etc.
+			
+				// Find which movies are premieres
+				for(var x=0; x<arrMoviesNext.length; x++){
+					var leffanimiN=arrMoviesNext[x]["leffanimi"];
+					var leffanimioriginalN=arrMoviesNext[x]["leffanimioriginal"];
+					
+					var bFound = false;
+					
+					for(var y=0; y<arrMoviesCurrent.length; y++){
+						var leffanimiC=arrMoviesCurrent[y]["leffanimi"];
+						var leffanimioriginalC=arrMoviesCurrent[y]["leffanimioriginal"];
+						if(leffanimiN == leffanimiC || leffanimioriginalN == leffanimioriginalC){
+							bFound = true;
+						}
+					}
+					
+					if(bFound==false){
+						arrMoviesNext[x]["first_week"]=1;
+					}
+				}
+	
+				// Find which movies are shown for the last time
+				for(var x=0; x<arrMoviesCurrent.length; x++){
+					var leffanimiN=arrMoviesCurrent[x]["leffanimi"];
+					var leffanimioriginalN=arrMoviesCurrent[x]["leffanimioriginal"];
+					
+					var bFound = false;
+					
+					for(var y=0; y<arrMoviesNext.length; y++){
+						var leffanimiC=arrMoviesNext[y]["leffanimi"];
+						var leffanimioriginalC=arrMoviesNext[y]["leffanimioriginal"];
+						if(leffanimiN == leffanimiC || leffanimioriginalN == leffanimioriginalC){
+							bFound = true;
+						}
+					}
+					
+					if(bFound == false){
+						arrMoviesCurrent[x]["last_week"]=1;
+					}
+				}
+			}
+             
+             function processPhase4(){
+             // Here the gathered data is outputted
+				if(bShowCurrentTimes__MODULE_ID__){
+					// Output all gathered data of one movie:
+	               	// Start building HTML string that will be displayed in <div>.
+					var html ="";
+				   	html += "<h4>" + sCityNameInflected__MODULE_ID__ + " tällä viikolla (" + viikko_nyt + ")</h4>";
+					for(var y=0; y<arrMoviesCurrent.length; y++){
+	                   	html += "<p class=\"movie";
+						if(arrMoviesCurrent[y]["last_week"] == 1){
+							html += " last_week";
+						}
+						html += "\">";
+						html += "<p style='float:left;'><img style='align:top; width:20px; height:20px;' src='" + arrMoviesCurrent[y]["ikaraja_kuva"] + "' alt='" + arrMoviesCurrent[y]["ikaraja"] + "' /></p>";
+						// target attribute neede, or otherwise the iframe will be used
+						html += "<p style='float:left;'><a style='float:left;' target='_parent' href='" + arrMoviesCurrent[y]["linkki"];
+						// Append city number to url so that correct web page is displayed
+						html += "&city='" + iCityId__MODULE_ID__ + "'";
+						
+						// Add the name element
+						html += " name='#" + arrMoviesCurrent[y]["hrefname"] + "'";
+						html += " id='movieanchor" + arrMoviesCurrent[y]["hrefname"] + "'";
+						
+						html += "><b>" + arrMoviesCurrent[y]["leffanimi"] + "</b>";
+	                   	if (arrMoviesCurrent[y]["leffanimioriginal"] != "" && arrMoviesCurrent[y]["leffanimioriginal"] != "()"){
+							html += " (";
+							html += arrMoviesCurrent[y]["leffanimioriginal"];
+							html += ") ";                             
+	                   	}
+	                   	html += "</a></p>"
+						//html += arrMoviesCurrent[y]["id"];
+	                   	//html += "<br/>";
+	                   	html += "<p style='float:left;'>";
+						html += arrMoviesCurrent[y]["kesto"];
+	                   	html += "</p></p>";
+	                   	html += "<p class=\"movietimes";
+						html += "\">";
+	
+	
+						var tmpArrAjat = new Array();
+						tmpArrAjat=arrMoviesCurrent[y]["ajat"];
+						var tmpArrTeatteri = new Array();
+						tmpArrTeatteri=arrMoviesCurrent[y]["teatteri"];
+						var tmpArrSali = new Array();
+						tmpArrSali=arrMoviesCurrent[y]["sali"];
+						var alltimes = "";
+						for(var i=0; i<tmpArrTeatteri.length; i++){
+							if(alltimes==""){	
+								alltimes="<b>" + tmpArrTeatteri[i] + "</b>:: " + tmpArrSali[i];
+							}
+							else{
+								alltimes += "; <b>" + tmpArrTeatteri[i] + "</b>:: " + tmpArrSali[i];
+							}
+							var tmpArrAjat2 = tmpArrAjat[i];
+							for(var j=0; j<tmpArrAjat2.length; j=j+2){
+								if(j==0){
+									alltimes += " <b>" + tmpArrAjat2[j]["pv"] + "</b>: " + tmpArrAjat2[j]["aika"];
+								}
+								else{
+									alltimes += ", <b>" + tmpArrAjat2[j]["pv"] + "</b>: " + tmpArrAjat2[j]["aika"];
+								}
+							}
+						}
+						html += alltimes;
+						
+						// Create the link for buing tickets
+						//http://www.finnkino.fi/include/iticket_login.asp?city=8&movie=1071
+						//iCityId__MODULE_ID__
+						//arrMoviesCurrent[y]["id"]
+						html += "<br/>";
+						html += "<a target='_parent' href='http://www.finnkino.fi/include/iticket_login.asp?city=" + iCityId__MODULE_ID__ + "&movie=" + arrMoviesCurrent[y]["id"] + "'><img style='width:15px; height:15px;' src='http://www.koant.com/googlegadgets/finnkino/icons/buy.gif' alt='Osta tai varaa liput' /></a>";
+						html += "<a onClick=\"showInfo__MODULE_ID__(" + arrMoviesCurrent[y]["id"] + ",'current', " + arrMoviesCurrent[y]["hrefname"] + ")\" href='#info'><img style='width:15px; height:15px;' src='http://www.koant.com/googlegadgets/finnkino/icons/info.gif' alt='Tietoja elokuvasta' /></a>";
+						html += "</p>";
+					}
+	                 
+					html = removeBadCharacters(html);	                 
+	                 
+	                	// Display HTML string in <div>
+	                	_gel("current__MODULE_ID__").innerHTML = html; 
+				}
+				
+				if(bShowNextTimes__MODULE_ID__){
+					// Output all gathered data of one movie:
+	               	// Start building HTML string that will be displayed in <div>.
+					var html ="";
+				   	html += "<h4>" + sCityNameInflected__MODULE_ID__ + " ensi viikolla (" + viikko_tuleva + ")</h4>";
+					for(var y=0; y<arrMoviesNext.length; y++){
+	                   	html += "<p class=\"movie";
+						if(arrMoviesNext[y]["first_week"] == 1){
+							html += " first_week";
+						}
+						html += "\">";
+						html += "<img align='top' width='20px' height='20px' src='" + arrMoviesNext[y]["ikaraja_kuva"] + "' alt='" + arrMoviesNext[y]["ikaraja"] + "' />";
+						// target attribute neede, or otherwise the iframe will be used
+						html += "<a target='_parent' href='" + arrMoviesNext[y]["linkki"];
+						// Append city number to url so that correct web page is displayed
+						html += "&city='" + iCityId__MODULE_ID__ + "'";
+						
+						// Add the name element
+						html += " name='#" + arrMoviesNext[y]["hrefname"] + "'";
+						html += " id='movieanchor" + arrMoviesNext[y]["hrefname"] + "'";
+						
+						html += "><b>" + arrMoviesNext[y]["leffanimi"] + "</b>";
+	                   	if (arrMoviesNext[y]["leffanimioriginal"] != "" && arrMoviesNext[y]["leffanimioriginal"] != "()"){
+							html += " (";
+							html += arrMoviesNext[y]["leffanimioriginal"];
+							html += ") ";                             
+	                   	}
+	                   	html += "</a>"
+						//html += arrMoviesNext[y]["id"];
+	                   	html += "<br/>";
+						html += arrMoviesNext[y]["kesto"];
+	                   	html += "</p>";
+	                   	html += "<p class=\"movietimes";
+						html += "\">";
+	
+						var tmpArrAjat = new Array();
+						tmpArrAjat=arrMoviesNext[y]["ajat"];
+						var tmpArrTeatteri = new Array();
+						tmpArrTeatteri=arrMoviesNext[y]["teatteri"];
+						var tmpArrSali = new Array();
+						tmpArrSali=arrMoviesNext[y]["sali"];
+						var alltimes = "";
+						for(var i=0; i<tmpArrTeatteri.length; i++){
+							if(alltimes==""){	
+								alltimes="<b>" + tmpArrTeatteri[i] + "</b>:: " + tmpArrSali[i];
+							}
+							else{
+								alltimes += "; <b>" + tmpArrTeatteri[i] + "</b>:: " + tmpArrSali[i];
+							}
+							var tmpArrAjat2 = tmpArrAjat[i];
+							for(var j=0; j<tmpArrAjat2.length; j=j+2){
+								if(j==0){
+									alltimes += " <b>" + tmpArrAjat2[j][0] + "</b>: " + tmpArrAjat2[j][0];
+								}
+								else{
+									alltimes += ", <b>" + tmpArrAjat2[j][0] + "</b>: " + tmpArrAjat2[j][0];
+								}
+							}
+						}
+						html += alltimes;
+						// Create the link for buing tickets
+						//http://www.finnkino.fi/include/iticket_login.asp?city=8&movie=1071
+						//iCityId__MODULE_ID__
+						//arrMoviesCurrent[y]["id"]
+						html += "<br/>";
+						html += "<a target='_parent' href='http://www.finnkino.fi/include/iticket_login.asp?city=" + iCityId__MODULE_ID__ + "&movie=" + arrMoviesNext[y]["id"] + "'><img style='width:15px; height:15px;' src='http://www.koant.com/googlegadgets/finnkino/icons/buy.gif' alt='Osta tai varaa liput' /></a>";
+						html += "<a onClick=\"showInfo__MODULE_ID__(" + arrMoviesNext[y]["id"] + ",'next', " + arrMoviesNext[y]["hrefname"] + ")\" href='#info'><img style='width:15px; height:15px;' src='http://www.koant.com/googlegadgets/finnkino/icons/info.gif' alt='Tietoja elokuvasta' /></a>";
+						html += "</p>";
+					}
+
+					html = removeBadCharacters(html);	                 
+
+	                	// Display HTML string in <div>
+	                	_gel("next__MODULE_ID__").innerHTML = html; 
+				}
+             }
+             
+             function showInfo__MODULE_ID__(iId, sWeek, iHrefId){
+             	// Save te position of the window so that 
+             	// we can scroll back to it after displaying info
+             	// Whis position is needed because ScrollIntoView doesn't work
+             	// like I'd like 
+				pageScrollPositionFromTop = parent.window.pageYOffset;
+				// Alternative :	var y5 = document.body.scrollTop;
+				
+             	if (sWeek == "current"){
+	     			for(var x=0; x<arrMoviesCurrent.length; x++){
+						if(arrMoviesCurrent[x]["id"]==iId){
+							var html = "";
+							
+							html += "<p style='text-align:right;'><a onClick=\"hideInfo__MODULE_ID__(" + iHrefId + ")\"'><b>[X]</b></a></p>";
+							html += "<p>";
+							html += "<b>" + arrMoviesCurrent[x]["leffanimi"] + "</b>";
+							html += "<br/>";
+							html += "(" + arrMoviesCurrent[x]["leffanimioriginal"] + ")";
+							html += "<br/>";
+							html += "Ensi-ilta: " + arrMoviesCurrent[x]["premiere"];
+							html += "<br/>";
+							html += "<img src='" + arrMoviesCurrent[x]["ikaraja_kuva"] + "' alt='" + arrMoviesCurrent[x]["ikaraja"] + "' />";
+							html += "<br/>";
+							html += arrMoviesCurrent[x]["kesto"];
+							html += "<br/>";
+							html += arrMoviesCurrent[x]["genre"];
+							html += "<br/>";
+							html += "Ohjaaja: " + arrMoviesCurrent[x]["ohjaaja"];
+							html += "<br/>";
+							html += "N&#246;yttelij&#246;t: " + arrMoviesCurrent[x]["nayttelijat"];
+							html += "<br/>";
+							html += arrMoviesCurrent[x]["Kuvaus"];
+							html += "<br/>";
+							html += "</p>";
+							html += "<p style='text-align:right;'><a onClick=\"hideInfo__MODULE_ID__(" + iHrefId + ")\"'><b>[X]</b></a></p>";
+			                	// Display HTML string in <div>
+			                	_gel("info__MODULE_ID__").innerHTML = html; 
+							_gel("content__MODULE_ID__").style.display="none";
+							_gel("info__MODULE_ID__").style.display="block";
+						}	     				
+	     			}
+             	}
+             	else if (sWeek == "next"){
+	     			for(var x=0; x<arrMoviesNext.length; x++){
+						if(arrMoviesNext[x]["id"]==iId){
+							var html = "";
+							html += "<p><a onClick=\"hideInfo__MODULE_ID__(" + iHrefId + ")\"'>[sulje " + iHrefId + "]</a></p>";
+			                	_gel("info__MODULE_ID__").innerHTML = html; 
+							_gel("content__MODULE_ID__").style.display="none";
+							_gel("info__MODULE_ID__").style.display="block";
+						}	     				
+	     			}
+             	}
+             	else{
+             		alert("Wrong parameters");
+             	}
+             }
+             
+             function hideInfo__MODULE_ID__(iHrefId){
+             	// Switch what is displayeds
+				_gel("info__MODULE_ID__").style.display="none";
+				_gel("content__MODULE_ID__").style.display="block";
+				
+				// Get anchor element id and scroll to it:
+				var anchor = "movieanchor" + iHrefId;
+				_gel(anchor).scrollIntoView(true);
+				
+				// Scroll the whole window back to where it was
+				self.parent.scroll(0,pageScrollPositionFromTop);
+             }
+             
+     		function findElementIn2DArray(sSearch, iLevelToSearch, sElementToFind, arrArray, iLevelToReturn){
+     			var result = "";
+     			
+ 				if(iLevelToSearch==1 && sElementToFind != ""){
+ 					if (arrArray[sElementToFind] == sSearch){
+     					if (iLevelToReturn == 0){
+     					// if iLevelToReturn == 0 we return the input array itself
+     					// that is we verify that the input array contains the wanted element
+     						result = arrArray;
+     					}
+     					else{
+     					// Otherwise return the element itself
+	     					result = sSearch;
+     					}
+					}
+ 				}
+ 				else{
+	     			for(var x=0; x<arrArray.length; x++){
+	     			// Loop through the input array element by element
+	     			
+	     				if(iLevelToSearch==1 && sElementToFind == ""){
+	     				// if iLevelToSearch == 1 then we search for the sSearch in the input array
+	     				// if iLevelToSearch == 2 then we search for the sSearch in the input array's elements
+	 					// if sElementToFind == "" we search in the contents of all elements
+	 					// else we look for sSearch in the element [sElementToFind]
+	     					
+		     				if (arrArray[x] == sSearch){
+		     				// Try to find
+		     				
+		     					if (iLevelToReturn == 0){
+		     					// if iLevelToReturn == 0 we return the input array itself
+		     					// that is we verify that the input array contains the wanted element
+		     						result = arrArray;
+		     					}
+		     					else{
+		     					// Otherwise return the element itself
+			     					result = arrArray[x]
+		     					}
+		     				}
+	     				}
+	     				else if(iLevelToSearch == 2){
+			 				if(sElementToFind != ""){
+			 					if (arrArray[x][sElementToFind] == sSearch){
+			     					if (iLevelToReturn == 0){
+			     					// if iLevelToReturn == 0 we return the input array itself
+			     					// that is we verify that the input array contains the wanted element
+			     						rsult = arrArray;
+			     					}
+			     					else if (iLevelToReturn == 1){
+			     						result = arrArray[x];
+			     					}
+			     					else{
+			     					// Otherwise return the element itself
+				     					result = sSearch;
+			     					}
+								}
+			 				}
+			 				else{
+				     			for(var y=0; y<arrArray[x].length; y++){
+				     			// Loop through the input array element by element
+				     			
+				     				if(iLevelToSearch==2 && sElementToFind == ""){
+				 					// if sElementToFind == "" we search in the contents of all elements
+				 					// else we look for sSearch in the element [sElementToFind]
+				     					
+					     				if (arrArray[x][y] == sSearch){
+					     				// Try to find
+					     				
+					     					if (iLevelToReturn == 0){
+					     					// if iLevelToReturn == 0 we return the input array itself
+					     					// that is we verify that the input array contains the wanted element
+					     						return arrArray;
+					     					}
+					     					else if (iLevelToReturn == 1){
+					     						result = arrArray[x];
+					     					}
+					     					else if (iLevelToReturn == 2){
+					     						result = arrArray[x][y];
+					     					}
+					     					else{
+					     					// Otherwise return the element itself
+						     					result = sSearch;
+					     					}
+					     				}
+				     				}
+				     			}
+			 				}
+	     				}
+	     				else{
+	     					alert("Incorrect iLevel parameter");
+	     				}
+	     			}
+ 				}
+     			
+     			return result;
+     		
+     		}
+                
+                
+             function removeBadCharacters(html){
+			// Due to the fact that _IG_FetchXmlContent does't 
+			// support ISO-8859-1 encoding, we have to remove invalid characters from the 
+			// output
+				for(var x=0; x<html.length; x++){
+					var sTmp = html;
+					if(html.charCodeAt(x)>=255){
+						sTmp = html.substring(0,x) + html.substring(x+1,html.length);
+					}
+					html = sTmp;
+				}
+				
+				return html;                                                             
+             }
+                
+	        	function replaceString__MODULE_ID__(sOld,sNew,sFull) {
+	        	// Replaces occurrences of sOld with sNew in the string sFull
+	        	// Not used at the moment
+	           	for (var i=0; i<sFull.length; i++) {
+	                 if (sFull.substring(i,i+sOld.length) == sOld) {
+	                     sFull = sFull.substring(0,i) + sNew + sFull.substring(i + sOld.length, sFull.length)
+	               	}
+	            	}
+	            	return sFull
+	        	}
+	        
+	        document.body.onload = finnkino__MODULE_ID__();
+        
+        </script>
+     ]]>
+  </Content> 
+  
+</Module>

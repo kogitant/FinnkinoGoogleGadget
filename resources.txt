@@ -1,0 +1,23 @@
+http://groups.google.com/group/Google-Homepage-API?lnk=li
+	Google Group for Homepage Gadget API
+	
+http://groups.google.com/group/Google-Homepage-API/browse_thread/thread/2c539763f6ca55af/7fa363199b27619f?#7fa363199b27619f
+	Thread about ISO-8859-1 bug in _IG_FetchXmlContent(url, func)
+	Waiting for an answer
+
+http://docs.sun.com/source/816-6408-10/contents.htm
+	Documentation for JavaScript
+	
+http://www.google.com/apis/homepage/guide.html
+	Documentation for Google Homepage Gadgets
+
+http://www.google.com/apis/homepage/reference.html
+	Reference for Google Homepage Gadget API
+
+http://home.tiscali.nl/t876506/utf8tbl.html
+	UTF-8 character table with the following data:
+	h	dec	hx	U-hex	U-dec	UTF-dec	UTF-hx	lit	Unicode name	PostScript name	
+	
+http://www.google.com/webmasters/add.html
+	Place to generate "add to google homepage" link
+
